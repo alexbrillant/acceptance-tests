@@ -31,9 +31,8 @@ public class PrescriptionRestFixture extends BaseRestFixture implements Prescrip
     }
 
     private void callPatientPrescriptionRequest(PatientIdentifier patientIdentifier, PrescriptionForm prescriptionForm) {
-        givenBaseRequest()
-                .body(prescriptionForm)
-                .post(createPatientPrescriptionRessourceUrl(patientIdentifier));
+        givenBaseRequest().body(prescriptionForm)
+                .when().post(createPatientPrescriptionRessourceUrl(patientIdentifier));
     }
 
     private String createPatientPrescriptionRessourceUrl(PatientIdentifier patientIdentifier) {

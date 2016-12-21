@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.med.acctests.runners;
 
 import ca.ulaval.glo4002.med.acctests.context.AccTestsContext;
 import ca.ulaval.glo4002.med.interfaces.rest.server.MedServer;
-import org.junit.Before;
+import cucumber.api.java.Before;
 
 public class MedServerRunner {
     public static final int JETTY_TEST_PORT = 15146;
@@ -11,11 +11,11 @@ public class MedServerRunner {
     private MedServer server;
 
     @Before
-    public void beforeAll() throws Exception {
+    public void start() throws Exception {
         if (isFirstFeature) {
+            isFirstFeature = false;
             Runtime.getRuntime().addShutdownHook(new JettyServerShutdown());
             startJettyServer();
-            isFirstFeature = false;
         }
     }
 

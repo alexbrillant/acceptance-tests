@@ -1,7 +1,10 @@
 package ca.ulaval.glo4002.med.acctests.steps;
 
 import ca.ulaval.glo4002.med.acctests.context.AccTestsContext;
+import ca.ulaval.glo4002.med.acctests.fixtures.PatientFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.PrescriptionFixture;
+import ca.ulaval.glo4002.med.acctests.fixtures.PrescriptionRestFixture;
+import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
 import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
@@ -12,13 +15,13 @@ public class SampleSteps implements Fr {
 
     @Before
     public void beforeScenario() {
-        new AccTestsContext().reinitialize();
+        prescriptionFixture = new PrescriptionRestFixture();
     }
 
     public SampleSteps() {
+
         Étantdonné("^une ordonnance valide pour Alice$", () -> {
-            // Write code here that turns the phrase above into concrete actions
-            throw new PendingException();
+            prescriptionFixture.createValidPrescription(AccTestsContext.EXISTENT_PATIENT_IDENTIFIER);
         });
 
         Quand("^Alice ajoute l'ordonnance à son dossier$", () -> {

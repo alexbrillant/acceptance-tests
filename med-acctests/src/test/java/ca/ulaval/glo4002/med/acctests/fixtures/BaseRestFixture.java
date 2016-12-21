@@ -7,8 +7,7 @@ import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
 public class BaseRestFixture {
-
-    public RequestSpecification givenBaseRequest() {
+    protected RequestSpecification givenBaseRequest() {
         return given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)

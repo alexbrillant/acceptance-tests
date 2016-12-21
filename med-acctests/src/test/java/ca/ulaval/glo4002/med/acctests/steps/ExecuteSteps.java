@@ -4,12 +4,13 @@ import ca.ulaval.glo4002.med.acctests.context.AccTestsContext;
 import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
+import org.junit.Ignore;
 
+@Ignore
 public class ExecuteSteps implements Fr {
 
     @Before
     public void beforeScenario() throws Exception {
-        new AccTestsContext().reinitialize();
     }
 
     public ExecuteSteps() {
@@ -51,7 +52,7 @@ public class ExecuteSteps implements Fr {
         });
 
         Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice expirant le '(\\d+)-(\\d+)-(\\d+)'$",
-                (Integer arg1, Integer arg2, Integer arg3) -> {
+                (Integer year, Integer month, Integer day) -> {
             throw new PendingException();
         });
 
