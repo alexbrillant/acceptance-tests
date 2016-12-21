@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.med.acctests;
+package ca.ulaval.glo4002.med.acctests.runners;
 
 import ca.ulaval.glo4002.med.interfaces.rest.server.MedServer;
 import org.junit.Before;

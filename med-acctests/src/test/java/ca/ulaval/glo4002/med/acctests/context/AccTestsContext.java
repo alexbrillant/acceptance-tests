@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.med.acctests;
+package ca.ulaval.glo4002.med.acctests.context;
 
 import ca.ulaval.glo4002.med.applicationServices.shared.locator.ServiceLocator;
 import ca.ulaval.glo4002.med.context.ContextBase;
