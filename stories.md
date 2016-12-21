@@ -1,6 +1,6 @@
 # TP GLO4002 2016 - Stories
 
-## Vacabulaire du domaine
+## Vocabulaire du domaine
 
 -   ordonnance (en: prescription) = un "papier" donné par un professionnel de la santé visant à obtenir un ou des médicaments (dans ce domaine).
 -   répétitions (en: renewal) = Nombre de fois qu'une personne peut demander ce médicament (ex.: 1 fois ou 2 fois). C'est le nombre *total* d'exécutions incluant la première fois.
