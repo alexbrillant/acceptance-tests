@@ -33,16 +33,16 @@ public class ExecuteSteps implements Fr {
             throw new PendingException();
         });
 
-        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$", (Integer timesCount) -> {
+        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$", (Integer renewal) -> {
             throw new PendingException();
         });
 
-        Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène pour la (\\d+)e fois$", (Integer timesCount) -> {
+        Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène pour la (\\d+)e fois$", (Integer renewal) -> {
             throw new PendingException();
         });
 
         Quand("^Alice demande à exécuter l'ordonnance d'acétaminophène le (\\d+)-(\\d+)-(\\d+)$",
-                (Integer arg1, Integer arg2, Integer arg3) -> {
+                (Integer year, Integer month, Integer day) -> {
                     throw new PendingException();
         });
 

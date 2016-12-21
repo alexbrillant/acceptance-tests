@@ -1,11 +1,14 @@
 package ca.ulaval.glo4002.med.acctests.steps;
 
 import ca.ulaval.glo4002.med.acctests.context.AccTestsContext;
+import ca.ulaval.glo4002.med.acctests.fixtures.PrescriptionFixture;
 import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 
 public class SampleSteps implements Fr {
+
+    private PrescriptionFixture prescriptionFixture;
 
     @Before
     public void beforeScenario() {
