@@ -1,9 +1,17 @@
 package ca.ulaval.glo4002.med.acctests.steps;
 
+import ca.ulaval.glo4002.med.acctests.context.AccTestsContext;
 import cucumber.api.PendingException;
+import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 
 public class ExecuteSteps implements Fr {
+
+    @Before
+    public void beforeScenario() throws Exception {
+        new AccTestsContext().reinitialize();
+    }
+
     public ExecuteSteps() {
         Étantdonné("^une patiente Alice$", () -> {
             throw new PendingException();

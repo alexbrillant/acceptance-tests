@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.med.acctests.runners;
 
+import ca.ulaval.glo4002.med.acctests.context.AccTestsContext;
 import ca.ulaval.glo4002.med.interfaces.rest.server.MedServer;
 import org.junit.Before;
 
@@ -19,7 +20,8 @@ public class MedServerRunner {
     }
 
     private void startJettyServer() throws Exception {
-        // ???
+        server = new MedServer(JETTY_TEST_PORT, new AccTestsContext());
+        server.start();
     }
 
     private class JettyServerShutdown extends Thread {
