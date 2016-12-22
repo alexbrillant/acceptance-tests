@@ -1,12 +1,9 @@
 package ca.ulaval.glo4002.med.acctests.steps;
 
-import ca.ulaval.glo4002.med.acctests.context.AccTestsContext;
 import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
-import org.junit.Ignore;
 
-@Ignore
 public class ExecuteSteps implements Fr {
 
     @Before
