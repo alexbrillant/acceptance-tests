@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.med.core.prescriptions;
 
 import java.util.Date;
 
-// Creates prescriptions for the Gesphar system, not just any prescription.
+// Creates prescriptions for the Gesphar system, not just any createPrescription.
 public class GespharPrescriptionFactory implements PrescriptionFactory {
 
     @Override

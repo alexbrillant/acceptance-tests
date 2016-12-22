@@ -38,7 +38,7 @@ public class HibernatePatientRepositoryITest {
 
         Patient patientFound = repository.findByIdentifier(PATIENT_IDENTIFIER);
 
-        assertTrue("Should contain the prescription added before saving the patient",
+        assertTrue("Should contain the createPrescription added before saving the patient",
                 patientFound.hasPrescription(prescriptionIdentifier));
     }
 

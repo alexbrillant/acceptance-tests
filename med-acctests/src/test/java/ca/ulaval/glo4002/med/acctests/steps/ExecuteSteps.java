@@ -1,42 +1,49 @@
 package ca.ulaval.glo4002.med.acctests.steps;
 
+import ca.ulaval.glo4002.med.acctests.fixtures.executePrescription.ExecutePrescriptionFixture;
+import ca.ulaval.glo4002.med.acctests.fixtures.executePrescription.ExecutePrescriptionRestFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.patient.PatientMediumFixture;
-import ca.ulaval.glo4002.med.acctests.fixtures.prescription.PrescriptionFixture;
-import ca.ulaval.glo4002.med.acctests.fixtures.prescription.PrescriptionRestFixture;
+import ca.ulaval.glo4002.med.acctests.fixtures.createPrescription.CreatePrescriptionFixture;
+import ca.ulaval.glo4002.med.acctests.fixtures.createPrescription.CreatePrescriptionRestFixture;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
+import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 
 public class ExecuteSteps implements Fr {
 
-    PatientMediumFixture patientMediumFixture;
-    PatientIdentifier currentPatientIdentifier;
-    PrescriptionFixture prescriptionFixture;
+    private PatientMediumFixture patientMediumFixture;
+    private CreatePrescriptionFixture createPrescriptionFixture;
+    private ExecutePrescriptionFixture executePrescriptionFixture;
+
+    private PatientIdentifier patientIdentifier;
+    private PrescriptionIdentifier prescriptionIdentifier;
+
     private static int currentPatientNumber = 0;
 
     @Before
     public void beforeScenario() throws Exception {
         patientMediumFixture = new PatientMediumFixture();
-        prescriptionFixture = new PrescriptionRestFixture();
+        createPrescriptionFixture = new CreatePrescriptionRestFixture();
+        executePrescriptionFixture = new ExecutePrescriptionRestFixture();
         nextPatientIdentifier();
     }
 
     private void nextPatientIdentifier() {
         currentPatientNumber++;
         String identifier = Integer.toString(currentPatientNumber);
-        currentPatientIdentifier = new PatientIdentifier(identifier);
+        patientIdentifier = new PatientIdentifier(identifier);
     }
 
     public ExecuteSteps() {
         Étantdonné("^une patiente Alice$", () -> {
-            ;
-            patientMediumFixture.givenPatient(currentPatientIdentifier);
+            patientMediumFixture.givenPatient(patientIdentifier);
         });
 
         Étantdonné("^une nouvelle ordonnance d'acétaminophène$", () -> {
-            prescriptionFixture.givenValidPrescription(currentPatientIdentifier);
-            prescriptionFixture.addPrescriptionToPatient(currentPatientIdentifier);
+            createPrescriptionFixture.givenValidPrescription(patientIdentifier);
+            createPrescriptionFixture.whenAddingPrescription(patientIdentifier);
         });
 
         Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène$", () -> {
@@ -44,22 +51,21 @@ public class ExecuteSteps implements Fr {
         });
 
         Alors("^l'exécution est autorisée$", () -> {
-            throw new PendingException();
+            executePrescriptionFixture.thenPrescriptionIsExecuted();
         });
 
         Alors("^la date d'exécution est conservée$", () -> {
             throw new PendingException();
         });
 
-        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$", (Integer renewal) -> {
-            for (int i = 0; i < renewal; ++i) {
-                prescriptionFixture.givenValidPrescription(currentPatientIdentifier);
-                prescriptionFixture.addPrescriptionToPatient(currentPatientIdentifier);
-            }
+        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$", (Integer renewals) -> {
+            prescriptionIdentifier = createPrescriptionFixture.givenAddedPrescriptionWithRenewals(patientIdentifier, renewals);
         });
 
         Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène pour la (\\d+)e fois$", (Integer renewal) -> {
-            throw new PendingException();
+            for (int i = 0; i < renewal; i++) {
+                executePrescriptionFixture.executePrescription(patientIdentifier, prescriptionIdentifier);
+            }
         });
 
         Quand("^Alice demande à exécuter l'ordonnance d'acétaminophène le (\\d+)-(\\d+)-(\\d+)$",
@@ -68,7 +74,7 @@ public class ExecuteSteps implements Fr {
         });
 
         Alors("^l'exécution est refusée$", () -> {
-            throw new PendingException();
+            executePrescriptionFixture.thenPrescriptionExecutionIsRefused();
         });
 
         Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice expirant le '(\\d+)-(\\d+)-(\\d+)'$",

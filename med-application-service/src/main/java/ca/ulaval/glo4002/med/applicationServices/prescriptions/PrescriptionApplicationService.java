@@ -44,5 +44,6 @@ public class PrescriptionApplicationService {
     public void executePrescription(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier) {
         Patient patient = patientRepository.findByIdentifier(patientIdentifier);
         patient.executePrescription(prescriptionIdentifier);
+        patientRepository.persist(patient);
     }
 }

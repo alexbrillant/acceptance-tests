@@ -33,7 +33,7 @@ Fonctionnalité: Exécuter une ordonnance
     Étant donné une patiente Alice
     Et une ordonnance d'acétaminophène au dossier de Alice expirant le '2016-12-12'
     Quand Alice demande à exécuter l'ordonnance d'acétaminophène le <date>
-    Alors l'exécution est <resultat?>
+    Alors l'exécution est <resultat?
 
     Exemples:
       | date       | resultat? |

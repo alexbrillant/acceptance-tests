@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.med.acctests.fixtures.prescription;
+package ca.ulaval.glo4002.med.acctests.fixtures.createPrescription;
 
 import ca.ulaval.glo4002.med.acctests.fixtures.BaseRestFixture;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
@@ -11,7 +11,7 @@ import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
 import static org.eclipse.jetty.http.HttpStatus.Code.CREATED;
 import static org.junit.Assert.assertEquals;
 
-public class PrescriptionRestFixture extends BaseRestFixture implements PrescriptionFixture {
+public class CreatePrescriptionRestFixture extends BaseRestFixture implements CreatePrescriptionFixture {
 
     private static final LocalDate EXPIRATION_DATE = LocalDate.parse("2016-12-12");
     private Response currentRequest;
@@ -33,7 +33,7 @@ public class PrescriptionRestFixture extends BaseRestFixture implements Prescrip
     }
 
     @Override
-    public void addPrescriptionToPatient(PatientIdentifier patientIdentifier) {
+    public void whenAddingPrescription(PatientIdentifier patientIdentifier) {
         currentRequest = givenBaseRequest().body(currentPrescription)
                 .when().post(createPatientPrescriptionRessourceUrl(patientIdentifier));
     }
@@ -52,16 +52,25 @@ public class PrescriptionRestFixture extends BaseRestFixture implements Prescrip
     }
 
     @Override
-    public void thenPrescriptionIsConfirmed() {
+    public void thenPrescriptionCreationIsConfirmed() {
         assertEquals(CREATED.getCode(), currentRequest.statusCode());
     }
 
     @Override
-    public void thenPrescriptionHasAnError() {
+    public void thenPrescriptionCreationHasAnError() {
         assertEquals(BAD_REQUEST.getCode(), currentRequest.statusCode());
+    }
+
+    @Override
+    public PrescriptionIdentifier givenAddedPrescriptionWithRenewals(PatientIdentifier patientIdentifier,
+                                                                     int renewals) {
+        currentPrescription = new PrescriptionFormIso8601(PHYSICIAN, EXPIRATION_DATE, renewals, DIN, NAME);
+        whenAddingPrescription(patientIdentifier);
+        return getCreatedPrescriptionIdentifier();
     }
 
     private String createPatientPrescriptionRessourceUrl(PatientIdentifier patientIdentifier) {
         return String.format("/patients/%s/prescriptions", patientIdentifier.describe());
     }
+
 }

@@ -165,5 +165,6 @@ public class PrescriptionApplicationServiceTest {
 
         verify(patientRepository).findByIdentifier(patientIdentifier);
         verify(patient).executePrescription(prescriptionIdentifier);
+        verify(patientRepository).persist(patient);
     }
 }
