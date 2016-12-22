@@ -20,6 +20,18 @@ public class PrescriptionFormIso8601 {
     public String din;
     public String name;
 
+    public PrescriptionFormIso8601(String physician, LocalDate expirationDateIso, int renewals, String din, String name) {
+        this.physician = physician;
+        this.expirationDateIso = expirationDateIso;
+        this.renewals = renewals;
+        this.din = din;
+        this.name = name;
+    }
+
+    public PrescriptionFormIso8601(LocalDate expirationDateIso) {
+        this.expirationDateIso = expirationDateIso;
+    }
+
     @JsonProperty("expiration_date")
     public String getExpirationDate() {
         LocalDateTime dateTime = LocalDateTime.of(expirationDateIso, LocalTime.MIDNIGHT);

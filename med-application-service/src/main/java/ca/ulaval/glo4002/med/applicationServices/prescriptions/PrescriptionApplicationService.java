@@ -40,4 +40,9 @@ public class PrescriptionApplicationService {
             throw new InvalidPrescriptionFormApplicationException();
         }
     }
+
+    public void executePrescription(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier) {
+        Patient patient = patientRepository.findByIdentifier(patientIdentifier);
+        patient.executePrescription(prescriptionIdentifier);
+    }
 }

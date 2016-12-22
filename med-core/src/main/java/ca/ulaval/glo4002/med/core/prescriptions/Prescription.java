@@ -59,4 +59,11 @@ public class Prescription {
         return identifier.equals(prescriptionIdentifier);
     }
 
+    public void execute() {
+        if (renewals == 0) {
+            throw new UnauthorizedRenewalException();
+        }
+
+        renewals--;
+    }
 }

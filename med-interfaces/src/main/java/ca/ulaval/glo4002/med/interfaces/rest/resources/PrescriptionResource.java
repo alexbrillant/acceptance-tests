@@ -1,12 +1,9 @@
 package ca.ulaval.glo4002.med.interfaces.rest.resources;
 
 import java.net.URI;
+import java.util.UUID;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -36,6 +33,16 @@ public class PrescriptionResource {
 
         PrescriptionIdentifier prescriptionIdentifier = service.addPrescription(patientIdentifier, prescriptionForm);
         return Response.created(URI.create(convertToUrl(patientIdentifier, prescriptionIdentifier))).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response executePrescription(@PathParam("patientIdentifier") int patientId, @PathParam("id") String id) {
+        PatientIdentifier patientIdentifier = new PatientIdentifier(Integer.toString(patientId));
+        PrescriptionIdentifier prescriptionIdentifier = new PrescriptionIdentifier(UUID.fromString(id));
+
+        service.executePrescription(patientIdentifier, prescriptionIdentifier);
+        return Response.ok().build();
     }
 
     private String convertToUrl(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier) {

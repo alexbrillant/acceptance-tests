@@ -6,6 +6,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -156,4 +157,13 @@ public class PrescriptionApplicationServiceTest {
         return form;
     }
 
+    @Test
+    public void whenExecutingPrescription_shouldFindPatientAndExecuteItsPrescription() throws Exception {
+        PrescriptionIdentifier prescriptionIdentifier = mock(PrescriptionIdentifier.class);
+        PatientIdentifier patientIdentifier = mock(PatientIdentifier.class);
+        service.executePrescription(patientIdentifier, prescriptionIdentifier);
+
+        verify(patientRepository).findByIdentifier(patientIdentifier);
+        verify(patient).executePrescription(prescriptionIdentifier);
+    }
 }

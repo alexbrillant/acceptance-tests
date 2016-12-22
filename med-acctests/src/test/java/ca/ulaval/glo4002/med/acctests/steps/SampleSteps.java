@@ -25,7 +25,7 @@ public class SampleSteps implements Fr {
     public SampleSteps() {
 
         Étantdonné("^une ordonnance valide pour Alice$", () -> {
-            prescriptionFixture.createValidPrescription(EXISTENT_PATIENT_IDENTIFIER);
+            prescriptionFixture.givenValidPrescription(EXISTENT_PATIENT_IDENTIFIER);
         });
 
         Quand("^Alice ajoute l'ordonnance à son dossier$", () -> {
@@ -42,7 +42,7 @@ public class SampleSteps implements Fr {
         });
 
         Étantdonné("^une ordonnance invalide pour Alice$", () -> {
-            prescriptionFixture.createInvalidPrescription(EXISTENT_PATIENT_IDENTIFIER);
+            prescriptionFixture.givenInvalidPrescription(EXISTENT_PATIENT_IDENTIFIER);
         });
 
         Alors("^l'ordonnance n'est pas ajoutée à son dossier$", () -> {

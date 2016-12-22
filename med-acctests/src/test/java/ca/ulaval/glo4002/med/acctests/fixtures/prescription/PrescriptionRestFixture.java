@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.med.acctests.fixtures.BaseRestFixture;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 import io.restassured.response.Response;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -14,37 +13,29 @@ import static org.junit.Assert.assertEquals;
 
 public class PrescriptionRestFixture extends BaseRestFixture implements PrescriptionFixture {
 
-    public static final LocalDate NOW = LocalDate.now();
+    private static final LocalDate EXPIRATION_DATE = LocalDate.parse("2016-12-12");
     private Response currentRequest;
     private PrescriptionFormIso8601 currentPrescription;
 
-    private static final String PHYSICIAN = "physician";
-    private static final LocalDate EXPIRATION_DATE = LocalDate.now();
+    private static final String PHYSICIAN = "Dr. Bob";
     private static final int RENEWALS = 1;
-    private static final String DIN = "din";
-    private static final String NAME = "Alice";
+    private static final String DIN = "02017431";
+    private static final String NAME = "ACETAMINOPHEN 160 MG";
 
     @Override
-    public void createValidPrescription(PatientIdentifier patientIdentifier) {
-        currentPrescription = new PrescriptionFormIso8601();
-        currentPrescription.physician = PHYSICIAN;
-        currentPrescription.din = DIN;
-        currentPrescription.expirationDateIso = NOW;
-        currentPrescription.renewals = RENEWALS;
-        currentPrescription.name = NAME;
+    public void givenValidPrescription(PatientIdentifier patientIdentifier) {
+        currentPrescription = new PrescriptionFormIso8601(PHYSICIAN, EXPIRATION_DATE, RENEWALS, DIN, NAME);
     }
 
     @Override
-    public void createInvalidPrescription(PatientIdentifier patientIdentifier) {
-        currentPrescription = new PrescriptionFormIso8601();
-        currentPrescription.expirationDateIso = NOW;
+    public void givenInvalidPrescription(PatientIdentifier patientIdentifier) {
+        currentPrescription = new PrescriptionFormIso8601(EXPIRATION_DATE);
     }
 
     @Override
     public void addPrescriptionToPatient(PatientIdentifier patientIdentifier) {
         currentRequest = givenBaseRequest().body(currentPrescription)
                 .when().post(createPatientPrescriptionRessourceUrl(patientIdentifier));
-        int i = 0;
     }
 
     @Override

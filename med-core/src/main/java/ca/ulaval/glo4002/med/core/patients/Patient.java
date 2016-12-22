@@ -40,4 +40,11 @@ public class Patient {
         return prescriptions.stream().anyMatch(x -> x.hasIdentifier(prescriptionIdentifier));
     }
 
+    public void executePrescription(PrescriptionIdentifier prescriptionIdentifier) {
+        for (Prescription prescription : prescriptions) {
+            if (prescription.hasIdentifier(prescriptionIdentifier)) {
+                prescription.execute();
+            }
+        }
+    }
 }

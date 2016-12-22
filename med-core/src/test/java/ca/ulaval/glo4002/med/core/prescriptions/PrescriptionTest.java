@@ -12,6 +12,7 @@ public class PrescriptionTest {
     private static final String PHYSICIAN = "879986";
     private static final Date DATE = new Date();;
     private static final String DIN = "din12948";
+    public static final int NO_MORE_RENEWALS = 0;
 
     @Test
     public void hasIdentifierIfComparedToTheInitialIdentifiedUUID() {
@@ -31,5 +32,23 @@ public class PrescriptionTest {
         boolean sameIdentifier = prescription.hasIdentifier(PrescriptionIdentifier.create());
 
         assertFalse(sameIdentifier);
+    }
+
+    @Test(expected = UnauthorizedRenewalException.class)
+    public void givenNoMoreRenewals_whenExecute_shouldThrowException() {
+        PrescriptionIdentifier identifier = PrescriptionIdentifier.create();
+        Prescription prescription = new Prescription(identifier, DIN, DATE, PHYSICIAN, NO_MORE_RENEWALS);
+
+        prescription.execute();
+    }
+
+    @Test
+    public void givenRenewals_whenExecute_shouldRemoveOneRenewal() throws Exception {
+        PrescriptionIdentifier identifier = PrescriptionIdentifier.create();
+        Prescription prescription = new Prescription(identifier, DIN, DATE, PHYSICIAN, RENEWALS);
+
+        prescription.execute();
+
+        assertEquals(RENEWALS - 1, prescription.getRenewals());
     }
 }
