@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.med.acctests.fixtures.createPrescription;
+package ca.ulaval.glo4002.med.interfaces.rest.resources;
 
 import ca.ulaval.glo4002.med.applicationServices.prescriptions.PrescriptionForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;

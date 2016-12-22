@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.med.core.prescriptions;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class Prescription {
@@ -24,6 +24,9 @@ public class Prescription {
     @Column
     private int renewals;
 
+    @ElementCollection
+    private List<Date> executionDates;
+
     protected Prescription() {
     }
 
@@ -33,6 +36,16 @@ public class Prescription {
         this.date = date;
         this.physician = physician;
         this.renewals = renewals;
+        this.executionDates = new ArrayList<Date>();
+    }
+
+    public Prescription(PrescriptionIdentifier identifier, String din, Date date, String physician, int renewals, List<Date> executionDates) {
+        this.identifier = identifier;
+        this.din = din;
+        this.date = date;
+        this.physician = physician;
+        this.renewals = renewals;
+        this.executionDates = executionDates;
     }
 
     public PrescriptionIdentifier getIdentifier() {
@@ -55,6 +68,10 @@ public class Prescription {
         return renewals;
     }
 
+    public List<Date> getExecutionDates() {
+        return executionDates;
+    }
+
     public boolean hasIdentifier(PrescriptionIdentifier prescriptionIdentifier) {
         return identifier.equals(prescriptionIdentifier);
     }
@@ -69,5 +86,6 @@ public class Prescription {
         }
 
         renewals--;
+        executionDates.add(executionDate);
     }
 }

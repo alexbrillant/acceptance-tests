@@ -61,6 +61,6 @@ public class PrescriptionApplicationService {
     }
 
     private Date getCurrentDate() {
-        return Date.from(LocalDate.now(clock).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return Date.from(clock.instant());
     }
 }

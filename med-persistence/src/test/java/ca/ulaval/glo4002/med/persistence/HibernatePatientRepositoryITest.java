@@ -2,7 +2,9 @@ package ca.ulaval.glo4002.med.persistence;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,12 +36,14 @@ public class HibernatePatientRepositoryITest {
     @Test
     public void persistsThePrescriptionsWithThePatient() {
         PrescriptionIdentifier prescriptionIdentifier = PrescriptionIdentifier.create();
-        repository.persist(createPatientWithPrescriptions(prescriptionIdentifier));
+        Patient createdPatient = createPatientWithPrescriptions(prescriptionIdentifier);
+        repository.persist(createdPatient);
 
         Patient patientFound = repository.findByIdentifier(PATIENT_IDENTIFIER);
 
         assertTrue("Should contain the createPrescription added before saving the patient",
                 patientFound.hasPrescription(prescriptionIdentifier));
+        assertEquals(createdPatient.getPrescriptions(), patientFound.getPrescriptions());
     }
 
     private Patient createPatientWithPrescriptions(PrescriptionIdentifier prescriptionIdentifier) {
@@ -49,6 +53,9 @@ public class HibernatePatientRepositoryITest {
     }
 
     private Prescription createPrescription(PrescriptionIdentifier prescriptionIdentifier) {
-        return new Prescription(prescriptionIdentifier, "2134", new Date(), "physician", 2);
+        List<Date> executionDates = new ArrayList<>();
+        executionDates.add(new Date());
+        return new Prescription(prescriptionIdentifier, "2134", new Date(), "physician", 2,
+                executionDates);
     }
 }

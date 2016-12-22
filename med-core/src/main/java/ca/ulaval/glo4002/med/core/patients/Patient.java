@@ -25,6 +25,20 @@ public class Patient {
     protected Patient() {
     }
 
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public Prescription getPrescription(PrescriptionIdentifier prescriptionIdentifier) {
+        Prescription prescriptionFound;
+        for (Prescription prescription : prescriptions) {
+            if (prescription.getIdentifier().equals(prescriptionIdentifier)) {
+                return prescription;
+            }
+        }
+        return null;
+    }
+
     public Patient(PatientIdentifier identifier) {
         this.identifier = identifier;
     }

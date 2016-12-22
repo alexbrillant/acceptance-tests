@@ -9,6 +9,8 @@ import ca.ulaval.glo4002.med.core.prescriptions.GespharPrescriptionFactory;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionFactory;
 import ca.ulaval.glo4002.med.persistence.HibernatePatientRepository;
 
+import java.time.Clock;
+
 public class MediumContext extends ContextBase {
 
     public static final PatientIdentifier EXISTENT_PATIENT_IDENTIFIER = new PatientIdentifier("1234");
@@ -18,6 +20,7 @@ public class MediumContext extends ContextBase {
         ServiceLocator.reset();
         ServiceLocator.getInstance().register(PatientRepository.class, new HibernatePatientRepository());
         ServiceLocator.getInstance().register(PrescriptionFactory.class, new GespharPrescriptionFactory());
+        ServiceLocator.getInstance().register(Clock.class, Clock.systemDefaultZone());
     }
 
     @Override

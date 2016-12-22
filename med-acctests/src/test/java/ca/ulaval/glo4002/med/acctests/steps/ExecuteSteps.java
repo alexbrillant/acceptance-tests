@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.med.acctests.steps;
 
+import ca.ulaval.glo4002.med.acctests.context.LargeContext;
 import ca.ulaval.glo4002.med.acctests.fixtures.executePrescription.ExecutePrescriptionFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.executePrescription.ExecutePrescriptionRestFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.patient.PatientMediumFixture;
@@ -12,10 +13,12 @@ import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class ExecuteSteps implements Fr {
 
     public static final LocalDate LOCAL_DATE = LocalDate.now();
+
     private PatientMediumFixture patientMediumFixture;
     private CreatePrescriptionFixture createPrescriptionFixture;
     private ExecutePrescriptionFixture executePrescriptionFixture;
@@ -27,6 +30,7 @@ public class ExecuteSteps implements Fr {
 
     @Before
     public void beforeScenario() throws Exception {
+        new LargeContext().apply();
         patientMediumFixture = new PatientMediumFixture();
         createPrescriptionFixture = new CreatePrescriptionRestFixture();
         executePrescriptionFixture = new ExecutePrescriptionRestFixture();
@@ -45,12 +49,11 @@ public class ExecuteSteps implements Fr {
         });
 
         Étantdonné("^une nouvelle ordonnance d'acétaminophène$", () -> {
-            createPrescriptionFixture.givenValidPrescription(patientIdentifier);
-            createPrescriptionFixture.whenAddingPrescription(patientIdentifier);
+            prescriptionIdentifier = createPrescriptionFixture.givenAddedPrescription(patientIdentifier);
         });
 
         Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène$", () -> {
-            throw new PendingException();
+            executePrescriptionFixture.executePrescription(patientIdentifier, prescriptionIdentifier, LOCAL_DATE);
         });
 
         Alors("^l'exécution est autorisée$", () -> {
@@ -58,7 +61,7 @@ public class ExecuteSteps implements Fr {
         });
 
         Alors("^la date d'exécution est conservée$", () -> {
-            throw new PendingException();
+            patientMediumFixture.thenPatientHasPrescriptionWithExecutionDate(patientIdentifier, prescriptionIdentifier);
         });
 
         Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$",
@@ -70,13 +73,14 @@ public class ExecuteSteps implements Fr {
         Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène pour la (\\d+)e fois$",
                 (Integer renewal) -> {
             for (int i = 0; i < renewal; i++) {
-                executePrescriptionFixture.executePrescription(patientIdentifier, prescriptionIdentifier);
+                executePrescriptionFixture.executePrescription(patientIdentifier, prescriptionIdentifier, LOCAL_DATE);
             }
         });
 
         Quand("^Alice demande à exécuter l'ordonnance d'acétaminophène le (\\d+)-(\\d+)-(\\d+)$",
                 (Integer year, Integer month, Integer day) -> {
-                    throw new PendingException();
+             LocalDate localDate = LocalDate.parse(String.format("%d-%d-%d", year, month, day));
+             executePrescriptionFixture.executePrescription(patientIdentifier, prescriptionIdentifier, localDate);
         });
 
         Alors("^l'exécution est refusée$", () -> {
@@ -86,6 +90,7 @@ public class ExecuteSteps implements Fr {
         Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice expirant le '(\\d+)-(\\d+)-(\\d+)'$",
                 (Integer year, Integer month, Integer day) -> {
             LocalDate localDate = LocalDate.parse(String.format("%d-%d-%d", year, month, day));
+
             createPrescriptionFixture.givenAddedPrescriptionWithRenewals(patientIdentifier, 1, localDate);
         });
     }

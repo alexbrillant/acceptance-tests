@@ -18,4 +18,6 @@ public interface CreatePrescriptionFixture {
     PrescriptionIdentifier givenAddedPrescriptionWithRenewals(PatientIdentifier patientIdentifier,
                                                               int renewals,
                                                               LocalDate expirationDate);
+
+    PrescriptionIdentifier givenAddedPrescription(PatientIdentifier patientIdentifier);
 }

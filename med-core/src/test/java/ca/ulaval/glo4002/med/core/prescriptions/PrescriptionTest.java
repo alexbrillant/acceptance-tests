@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -12,7 +14,8 @@ public class PrescriptionTest {
 
     private static final int RENEWALS = 1;
     private static final String PHYSICIAN = "879986";
-    private static final Date EXPIRATION_DATE = new Date();;
+    private static final Date EXPIRATION_DATE = new Date();
+    ;
     private static final String DIN = "din12948";
     public static final int NO_MORE_RENEWALS = 0;
 
@@ -52,6 +55,18 @@ public class PrescriptionTest {
         prescription.execute(EXPIRATION_DATE);
 
         assertEquals(RENEWALS - 1, prescription.getRenewals());
+    }
+
+    @Test
+    public void givenRenewalsAndValidExecutionDate_whenExecuting_shouldAddExecutionDate() throws Exception {
+        PrescriptionIdentifier identifier = PrescriptionIdentifier.create();
+        Prescription prescription = new Prescription(identifier, DIN, EXPIRATION_DATE, PHYSICIAN, RENEWALS);
+
+        prescription.execute(EXPIRATION_DATE);
+
+        List<Date> expectedExecutionDates = new ArrayList<Date>();
+        expectedExecutionDates.add(EXPIRATION_DATE);
+        assertEquals(expectedExecutionDates, prescription.getExecutionDates());
     }
 
     @Test(expected = PrescriptionExpiredException.class)

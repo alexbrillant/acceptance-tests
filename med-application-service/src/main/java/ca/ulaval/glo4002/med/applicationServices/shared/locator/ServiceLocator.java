@@ -58,4 +58,12 @@ public class ServiceLocator {
         }
         services.put(service, implementation);
     }
+
+    // For Clock in acceptance tests
+    public <T> void registerAgain(Class<T> service, T implementation) {
+        if (services.containsKey(service)) {
+            services.remove(service);
+        }
+        services.put(service, implementation);
+    }
 }

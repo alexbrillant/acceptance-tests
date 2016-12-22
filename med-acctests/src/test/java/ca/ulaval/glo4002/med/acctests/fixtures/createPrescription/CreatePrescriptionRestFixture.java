@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.med.acctests.fixtures.createPrescription;
 import ca.ulaval.glo4002.med.acctests.fixtures.BaseRestFixture;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
+import ca.ulaval.glo4002.med.interfaces.rest.resources.PrescriptionFormIso8601;
 import io.restassured.response.Response;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -65,6 +66,13 @@ public class CreatePrescriptionRestFixture extends BaseRestFixture implements Cr
     public PrescriptionIdentifier givenAddedPrescriptionWithRenewals(PatientIdentifier patientIdentifier,
                                                                      int renewals, LocalDate expirationDate) {
         currentPrescription = new PrescriptionFormIso8601(PHYSICIAN, expirationDate, renewals, DIN, NAME);
+        whenAddingPrescription(patientIdentifier);
+        return getCreatedPrescriptionIdentifier();
+    }
+
+    @Override
+    public PrescriptionIdentifier givenAddedPrescription(PatientIdentifier patientIdentifier) {
+        currentPrescription = new PrescriptionFormIso8601(PHYSICIAN, EXPIRATION_DATE, RENEWALS, DIN, NAME);
         whenAddingPrescription(patientIdentifier);
         return getCreatedPrescriptionIdentifier();
     }
