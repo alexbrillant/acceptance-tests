@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.med.acctests.fixtures.createPrescription;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 
+import java.time.LocalDate;
+
 public interface CreatePrescriptionFixture {
     void givenValidPrescription(PatientIdentifier patientIdentifier);
     void givenInvalidPrescription(PatientIdentifier patientIdentifier);
@@ -13,5 +15,7 @@ public interface CreatePrescriptionFixture {
     void thenPrescriptionCreationIsConfirmed();
     void thenPrescriptionCreationHasAnError();
 
-    PrescriptionIdentifier givenAddedPrescriptionWithRenewals(PatientIdentifier patientIdentifier, int renewals);
+    PrescriptionIdentifier givenAddedPrescriptionWithRenewals(PatientIdentifier patientIdentifier,
+                                                              int renewals,
+                                                              LocalDate expirationDate);
 }

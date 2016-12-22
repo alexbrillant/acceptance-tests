@@ -8,14 +8,26 @@ import ca.ulaval.glo4002.med.core.prescriptions.Prescription;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionFactory;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class PrescriptionApplicationService {
 
+    private Clock clock;
     private PatientRepository patientRepository;
     private PrescriptionFactory prescriptionFactory;
+
+    // for testing
+    public void setClock(Clock clock) {
+        this.clock = clock;
+    }
 
     public PrescriptionApplicationService() {
         patientRepository = ServiceLocator.getInstance().resolve(PatientRepository.class);
         prescriptionFactory = ServiceLocator.getInstance().resolve(PrescriptionFactory.class);
+        clock = ServiceLocator.getInstance().resolve(Clock.class);
     }
 
     public PrescriptionApplicationService(PatientRepository patientRepository, PrescriptionFactory prescriptionAssembler) {
@@ -43,7 +55,12 @@ public class PrescriptionApplicationService {
 
     public void executePrescription(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier) {
         Patient patient = patientRepository.findByIdentifier(patientIdentifier);
-        patient.executePrescription(prescriptionIdentifier);
+        Date currentDate = getCurrentDate();
+        patient.executePrescription(prescriptionIdentifier, currentDate);
         patientRepository.persist(patient);
+    }
+
+    private Date getCurrentDate() {
+        return Date.from(LocalDate.now(clock).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }

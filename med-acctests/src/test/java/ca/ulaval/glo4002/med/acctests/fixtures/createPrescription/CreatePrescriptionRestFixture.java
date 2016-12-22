@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CreatePrescriptionRestFixture extends BaseRestFixture implements CreatePrescriptionFixture {
 
-    private static final LocalDate EXPIRATION_DATE = LocalDate.parse("2016-12-12");
+    private static final LocalDate EXPIRATION_DATE = LocalDate.now();
     private Response currentRequest;
     private PrescriptionFormIso8601 currentPrescription;
 
@@ -63,8 +63,8 @@ public class CreatePrescriptionRestFixture extends BaseRestFixture implements Cr
 
     @Override
     public PrescriptionIdentifier givenAddedPrescriptionWithRenewals(PatientIdentifier patientIdentifier,
-                                                                     int renewals) {
-        currentPrescription = new PrescriptionFormIso8601(PHYSICIAN, EXPIRATION_DATE, renewals, DIN, NAME);
+                                                                     int renewals, LocalDate expirationDate) {
+        currentPrescription = new PrescriptionFormIso8601(PHYSICIAN, expirationDate, renewals, DIN, NAME);
         whenAddingPrescription(patientIdentifier);
         return getCreatedPrescriptionIdentifier();
     }

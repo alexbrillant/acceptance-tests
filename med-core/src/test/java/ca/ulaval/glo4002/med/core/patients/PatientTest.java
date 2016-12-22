@@ -10,9 +10,12 @@ import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
+
 public class PatientTest {
 
     private static final PatientIdentifier IDENTIFIER = new PatientIdentifier("234");
+    public static final Date EXECUTION_DATE = new Date();
 
     private Patient patient;
 
@@ -36,18 +39,18 @@ public class PatientTest {
     public void givenNoPrescriptionWithIdentifierWanted_whenExecuting_shouldNotExecuteAnyPrescription() {
         Prescription prescription = createPrescriptionMockInPatient(false);
 
-        patient.executePrescription(PrescriptionIdentifier.create());
+        patient.executePrescription(PrescriptionIdentifier.create(), EXECUTION_DATE);
 
-        verify(prescription, never()).execute();
+        verify(prescription, never()).execute(EXECUTION_DATE);
     }
 
     @Test
     public void givenWantedPrescription_whenExecuting_shouldExecutePrescription() {
         Prescription prescription = createPrescriptionMockInPatient(true);
 
-        patient.executePrescription(PrescriptionIdentifier.create());
+        patient.executePrescription(PrescriptionIdentifier.create(), EXECUTION_DATE);
 
-        verify(prescription).execute();
+        verify(prescription).execute(EXECUTION_DATE);
     }
 
     private Prescription createPrescriptionMockInPatient(boolean hasIdentifier) {

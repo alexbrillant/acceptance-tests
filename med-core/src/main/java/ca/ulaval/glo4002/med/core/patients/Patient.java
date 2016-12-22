@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.med.core.patients;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,10 +41,10 @@ public class Patient {
         return prescriptions.stream().anyMatch(x -> x.hasIdentifier(prescriptionIdentifier));
     }
 
-    public void executePrescription(PrescriptionIdentifier prescriptionIdentifier) {
+    public void executePrescription(PrescriptionIdentifier prescriptionIdentifier, Date executionDate) {
         for (Prescription prescription : prescriptions) {
             if (prescription.hasIdentifier(prescriptionIdentifier)) {
-                prescription.execute();
+                prescription.execute(executionDate);
             }
         }
     }

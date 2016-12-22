@@ -11,8 +11,11 @@ import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 
+import java.time.LocalDate;
+
 public class ExecuteSteps implements Fr {
 
+    public static final LocalDate LOCAL_DATE = LocalDate.now();
     private PatientMediumFixture patientMediumFixture;
     private CreatePrescriptionFixture createPrescriptionFixture;
     private ExecutePrescriptionFixture executePrescriptionFixture;
@@ -58,11 +61,14 @@ public class ExecuteSteps implements Fr {
             throw new PendingException();
         });
 
-        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$", (Integer renewals) -> {
-            prescriptionIdentifier = createPrescriptionFixture.givenAddedPrescriptionWithRenewals(patientIdentifier, renewals);
+        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$",
+                (Integer renewals) -> {
+            prescriptionIdentifier = createPrescriptionFixture
+                    .givenAddedPrescriptionWithRenewals(patientIdentifier, renewals, LOCAL_DATE);
         });
 
-        Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène pour la (\\d+)e fois$", (Integer renewal) -> {
+        Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène pour la (\\d+)e fois$",
+                (Integer renewal) -> {
             for (int i = 0; i < renewal; i++) {
                 executePrescriptionFixture.executePrescription(patientIdentifier, prescriptionIdentifier);
             }
@@ -79,7 +85,8 @@ public class ExecuteSteps implements Fr {
 
         Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice expirant le '(\\d+)-(\\d+)-(\\d+)'$",
                 (Integer year, Integer month, Integer day) -> {
-            throw new PendingException();
+            LocalDate localDate = LocalDate.parse(String.format("%d-%d-%d", year, month, day));
+            createPrescriptionFixture.givenAddedPrescriptionWithRenewals(patientIdentifier, 1, localDate);
         });
     }
 }

@@ -10,10 +10,14 @@ import ca.ulaval.glo4002.med.core.prescriptions.GespharPrescriptionFactory;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionFactory;
 import ca.ulaval.glo4002.med.persistence.HibernatePatientRepository;
 
+import java.time.Clock;
+
 public class DemoContext extends ContextBase {
 
     @Override
     protected void registerServices() {
+        ServiceLocator.reset();
+        ServiceLocator.getInstance().register(Clock.class, Clock.systemDefaultZone());
         ServiceLocator.getInstance().register(PatientRepository.class, new HibernatePatientRepository());
         ServiceLocator.getInstance().register(PrescriptionFactory.class, new GespharPrescriptionFactory());
     }
