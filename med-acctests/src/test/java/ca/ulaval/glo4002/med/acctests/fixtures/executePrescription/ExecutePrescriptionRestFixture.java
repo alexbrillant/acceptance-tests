@@ -1,15 +1,12 @@
 package ca.ulaval.glo4002.med.acctests.fixtures.executePrescription;
 
 import ca.ulaval.glo4002.med.acctests.fixtures.BaseRestFixture;
-import ca.ulaval.glo4002.med.interfaces.rest.resources.PrescriptionFormIso8601;
-import ca.ulaval.glo4002.med.applicationServices.shared.locator.ServiceLocator;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 import io.restassured.response.Response;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.*;
-import java.util.Date;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;

@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.med.acctests.fixtures.createPrescription;
 import ca.ulaval.glo4002.med.acctests.fixtures.BaseRestFixture;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
-import ca.ulaval.glo4002.med.interfaces.rest.resources.PrescriptionFormIso8601;
 import io.restassured.response.Response;
 import java.time.LocalDate;
 import java.util.UUID;
