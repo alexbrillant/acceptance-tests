@@ -6,10 +6,10 @@ import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 import java.time.LocalDate;
 
 public interface ExecutePrescriptionFixture {
-    void executePrescription(PatientIdentifier patientIdentifier,
-                             PrescriptionIdentifier prescriptionIdentifier,
-                             LocalDate localDate);
-
+    void executePrescriptionAtLocalDate(PatientIdentifier patientIdentifier,
+                                        PrescriptionIdentifier prescriptionIdentifier,
+                                        LocalDate localDate);
+    void executePrescriptionNow(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier);
     void thenPrescriptionExecutionIsRefused();
     void thenPrescriptionIsExecuted();
 }

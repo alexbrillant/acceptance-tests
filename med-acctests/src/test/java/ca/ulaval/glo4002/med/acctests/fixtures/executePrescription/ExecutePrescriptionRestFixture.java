@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.med.applicationServices.shared.locator.ServiceLocator;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 import io.restassured.response.Response;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.*;
 import java.util.Date;
@@ -20,14 +21,13 @@ public class ExecutePrescriptionRestFixture extends BaseRestFixture implements E
     private Response currentRequest;
 
     @Override
-    public void executePrescription(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier,
-                                    LocalDate localDate) {
-        PrescriptionFormIso8601 prescriptionFormIso8601 = new PrescriptionFormIso8601(localDate);
-        Date date = prescriptionFormIso8601.toPrescriptionForm().expirationDate;
+    public void executePrescriptionAtLocalDate(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier,
+                                               LocalDate localDate) {
+        throw new NotImplementedException();
+    }
 
-        Clock clock = Clock.fixed(date.toInstant(), ZoneId.systemDefault());
-        ServiceLocator.getInstance().registerAgain(Clock.class, clock);
-
+    @Override
+    public void executePrescriptionNow(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier) {
         String url = createPatientPrescriptionRessourceUrl(patientIdentifier, prescriptionIdentifier);
         currentRequest = givenBaseRequest().when().put(url);
     }

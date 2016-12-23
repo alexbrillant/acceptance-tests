@@ -26,8 +26,12 @@ public class ExecutePrescriptionMediumFixture extends HibernateBaseFixture imple
     }
 
     @Override
-    public void executePrescription(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier,
-                                    LocalDate localDate) {
+    public void executePrescriptionNow(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier) {
+        executePrescriptionAtLocalDate(patientIdentifier, prescriptionIdentifier, LocalDate.now());
+    }
+    @Override
+    public void executePrescriptionAtLocalDate(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier,
+                                               LocalDate localDate) {
         currentPrescriptionIdentifier = prescriptionIdentifier;
         currentPatientIdentifier = patientIdentifier;
         java.util.Date executionDate = java.sql.Date.valueOf(localDate);

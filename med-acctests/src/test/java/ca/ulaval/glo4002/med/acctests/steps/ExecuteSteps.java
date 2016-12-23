@@ -14,10 +14,13 @@ import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class ExecuteSteps implements Fr {
 
-    public static final LocalDate LOCAL_DATE = LocalDate.now();
+    private static final LocalDate EXPIRATION_DATE = LocalDate.now().plus(1, ChronoUnit.DAYS);
+    private static final LocalDate EXECUTION_DATE = LocalDate.now().minus(1, ChronoUnit.DAYS);
+    public static final int RENEWALS = 2;
 
     private PatientMediumFixture patientMediumFixture;
     private CreatePrescriptionFixture createPrescriptionFixture;
@@ -58,13 +61,13 @@ public class ExecuteSteps implements Fr {
         });
 
         Étantdonné("^une nouvelle ordonnance d'acétaminophène$", () -> {
-            prescriptionId = createPrescriptionFixture.givenPrescriptionForPatient(patientId);
+            prescriptionId = createPrescriptionFixture.givenPrescriptionForPatient(patientId, RENEWALS, EXPIRATION_DATE);
         });
 
         Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$",
                 (Integer renewals) -> {
             prescriptionId = createPrescriptionFixture
-                    .givenPrescriptionForPatient(patientId, renewals, LOCAL_DATE);
+                    .givenPrescriptionForPatient(patientId, renewals, EXPIRATION_DATE);
         });
 
         Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice expirant le '(\\d+)-(\\d+)-(\\d+)'$",
@@ -74,19 +77,19 @@ public class ExecuteSteps implements Fr {
         });
 
         Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène$", () -> {
-            executePrescriptionFixture.executePrescription(patientId, prescriptionId, LOCAL_DATE);
+            executePrescriptionFixture.executePrescriptionNow(patientId, prescriptionId);
         });
 
         Quand("^Alice demande a exécuter l'ordonnance d'acétaminophène pour la (\\d+)e fois$", (Integer renewal) -> {
             for (int i = 0; i < renewal; i++) {
-                executePrescriptionFixture.executePrescription(patientId, prescriptionId, LOCAL_DATE);
+                executePrescriptionFixture.executePrescriptionAtLocalDate(patientId, prescriptionId, EXECUTION_DATE);
             }
         });
 
         Quand("^Alice demande à exécuter l'ordonnance d'acétaminophène le (\\d+)-(\\d+)-(\\d+)$",
                 (Integer year, Integer month, Integer day) -> {
             LocalDate localDate = LocalDate.parse(String.format("%d-%d-%d", year, month, day));
-            executePrescriptionFixture.executePrescription(patientId, prescriptionId, localDate);
+            executePrescriptionFixture.executePrescriptionAtLocalDate(patientId, prescriptionId, localDate);
         });
 
         Alors("^l'exécution est refusée$", () -> {

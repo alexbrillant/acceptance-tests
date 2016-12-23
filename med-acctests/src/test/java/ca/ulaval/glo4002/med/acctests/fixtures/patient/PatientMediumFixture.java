@@ -14,12 +14,11 @@ import static org.junit.Assert.assertTrue;
 
 public class PatientMediumFixture extends HibernateBaseFixture {
 
+    private static final int EXPECTED_EXECUTION_COUNT = 1;
     private PatientRepository patientRepository;
-    private int expectedExecutionCount;
 
     public PatientMediumFixture() {
         patientRepository = ServiceLocator.getInstance().resolve(PatientRepository.class);
-        expectedExecutionCount = 0;
     }
 
     public void givenPatient(PatientIdentifier patientIdentifier) {
@@ -50,7 +49,7 @@ public class PatientMediumFixture extends HibernateBaseFixture {
             Patient patient = patientRepository.findByIdentifier(patientIdentifier);
             Prescription prescription = patient.getPrescription(prescriptionIdentifier);
             int actualExecutionCount = prescription.getExecutionDates().size();
-            assertEquals(expectedExecutionCount, actualExecutionCount);
+            assertEquals(EXPECTED_EXECUTION_COUNT, actualExecutionCount);
         });
     }
 }

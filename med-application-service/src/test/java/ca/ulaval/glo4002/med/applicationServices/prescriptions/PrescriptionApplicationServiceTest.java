@@ -35,7 +35,6 @@ public class PrescriptionApplicationServiceTest {
 
     private static final PatientIdentifier PATIENT_IDENTIFIER = new PatientIdentifier("12455");
     private static final PrescriptionIdentifier PRESCRIPTION_IDENTIFIER = PrescriptionIdentifier.create();
-    public static final Date EXECUTION_DATE = new Date();
 
     @Mock
     private Patient patient;
@@ -167,27 +166,18 @@ public class PrescriptionApplicationServiceTest {
     public void whenExecutingPrescription_shouldFindPatientAndExecuteItsPrescription() throws Exception {
         PrescriptionIdentifier prescriptionIdentifier = mock(PrescriptionIdentifier.class);
         PatientIdentifier patientIdentifier = mock(PatientIdentifier.class);
-        Clock clock = Clock.fixed(Instant.now(), ZoneId.systemDefault());
-        service.setClock(clock);
 
         service.executePrescription(patientIdentifier, prescriptionIdentifier);
 
         verify(patientRepository).findByIdentifier(patientIdentifier);
-        verify(patient).executePrescription(prescriptionIdentifier, getCurrentDate(clock));
     }
 
     public void whenExecutingPrescription_shouldPersistPatient() throws Exception {
         PrescriptionIdentifier prescriptionIdentifier = mock(PrescriptionIdentifier.class);
         PatientIdentifier patientIdentifier = mock(PatientIdentifier.class);
-        Clock clock = Clock.fixed(Instant.now(), ZoneId.systemDefault());
-        service.setClock(clock);
 
         service.executePrescription(patientIdentifier, prescriptionIdentifier);
 
         verify(patientRepository).persist(patient);
-    }
-
-    private Date getCurrentDate(Clock clock) {
-        return Date.from(LocalDate.now(clock).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }
