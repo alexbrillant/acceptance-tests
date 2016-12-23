@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.med.acctests.steps;
 
-import ca.ulaval.glo4002.med.acctests.context.LargeContext;
+import ca.ulaval.glo4002.med.acctests.context.AccTestContext;
 import ca.ulaval.glo4002.med.acctests.fixtures.patient.PatientMediumFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.createPrescription.CreatePrescriptionFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.createPrescription.CreatePrescriptionRestFixture;
@@ -17,7 +17,7 @@ public class SampleSteps implements Fr {
 
     @Before
     public void beforeScenario() {
-        new LargeContext().apply();
+        new AccTestContext().apply();
         createPrescriptionFixture = new CreatePrescriptionRestFixture();
         patientFixture = new PatientMediumFixture();
     }

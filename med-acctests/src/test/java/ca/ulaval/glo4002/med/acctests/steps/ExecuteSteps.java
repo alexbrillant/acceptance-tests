@@ -1,9 +1,11 @@
 package ca.ulaval.glo4002.med.acctests.steps;
 
-import ca.ulaval.glo4002.med.acctests.context.LargeContext;
+import ca.ulaval.glo4002.med.acctests.context.AccTestContext;
 import ca.ulaval.glo4002.med.acctests.fixtures.createPrescription.CreatePrescriptionMediumFixture;
+import ca.ulaval.glo4002.med.acctests.fixtures.createPrescription.CreatePrescriptionRestFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.executePrescription.ExecutePrescriptionFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.executePrescription.ExecutePrescriptionMediumFixture;
+import ca.ulaval.glo4002.med.acctests.fixtures.executePrescription.ExecutePrescriptionRestFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.patient.PatientMediumFixture;
 import ca.ulaval.glo4002.med.acctests.fixtures.createPrescription.CreatePrescriptionFixture;
 import ca.ulaval.glo4002.med.core.patients.PatientIdentifier;
@@ -26,12 +28,21 @@ public class ExecuteSteps implements Fr {
 
     private static int currentPatientNumber = 0;
 
-    @Before
-    public void beforeScenario() throws Exception {
-        new LargeContext().apply();
+    @Before("@medium")
+    public void beforeMediumScenario() throws Exception {
+        new AccTestContext().apply();
         patientMediumFixture = new PatientMediumFixture();
         createPrescriptionFixture = new CreatePrescriptionMediumFixture();
         executePrescriptionFixture = new ExecutePrescriptionMediumFixture();
+        nextPatientIdentifier();
+    }
+
+    @Before("@large")
+    public void beforeLargeScenario() {
+        new AccTestContext().apply();
+        patientMediumFixture = new PatientMediumFixture();
+        createPrescriptionFixture = new CreatePrescriptionRestFixture();
+        executePrescriptionFixture = new ExecutePrescriptionRestFixture();
         nextPatientIdentifier();
     }
 
@@ -50,12 +61,14 @@ public class ExecuteSteps implements Fr {
             prescriptionId = createPrescriptionFixture.givenPrescriptionForPatient(patientId);
         });
 
-        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$", (Integer renewals) -> {
+        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice avec (\\d+) répétitions$",
+                (Integer renewals) -> {
             prescriptionId = createPrescriptionFixture
                     .givenPrescriptionForPatient(patientId, renewals, LOCAL_DATE);
         });
 
-        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice expirant le '(\\d+)-(\\d+)-(\\d+)'$", (Integer year, Integer month, Integer day) -> {
+        Étantdonné("^une ordonnance d'acétaminophène au dossier de Alice expirant le '(\\d+)-(\\d+)-(\\d+)'$",
+                (Integer year, Integer month, Integer day) -> {
             LocalDate localDate = LocalDate.parse(String.format("%d-%d-%d", year, month, day));
             prescriptionId = createPrescriptionFixture.givenPrescriptionForPatient(patientId, 1, localDate);
         });
@@ -70,7 +83,8 @@ public class ExecuteSteps implements Fr {
             }
         });
 
-        Quand("^Alice demande à exécuter l'ordonnance d'acétaminophène le (\\d+)-(\\d+)-(\\d+)$", (Integer year, Integer month, Integer day) -> {
+        Quand("^Alice demande à exécuter l'ordonnance d'acétaminophène le (\\d+)-(\\d+)-(\\d+)$",
+                (Integer year, Integer month, Integer day) -> {
             LocalDate localDate = LocalDate.parse(String.format("%d-%d-%d", year, month, day));
             executePrescriptionFixture.executePrescription(patientId, prescriptionId, localDate);
         });

@@ -9,6 +9,7 @@ Fonctionnalité: Exécuter une ordonnance
   - Une ordonnance a une date limite
   - Une ordonnance a un nombre maximal de répétitions
 
+  @large
   Scénario: Celui où c'est la première exécution non expirée
     Étant donné une patiente Alice
     Et une nouvelle ordonnance d'acétaminophène
@@ -16,6 +17,7 @@ Fonctionnalité: Exécuter une ordonnance
     Alors l'exécution est autorisée
     Et la date d'exécution est conservée
 
+  @medium
   Plan du scénario: Celui où on exécute une répétition
     Étant donné une patiente Alice
     Et une ordonnance d'acétaminophène au dossier de Alice avec 2 répétitions
@@ -29,6 +31,7 @@ Fonctionnalité: Exécuter une ordonnance
       | 3         | refusée   |
 
 
+  @medium
   Plan du scénario: Celui où l'ordonnance est expirée
     Étant donné une patiente Alice
     Et une ordonnance d'acétaminophène au dossier de Alice expirant le '2016-12-12'

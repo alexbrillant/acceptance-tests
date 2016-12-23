@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.med.acctests.context;
 import ca.ulaval.glo4002.med.acctests.runners.MedServerRunner;
 import ca.ulaval.glo4002.med.context.ContextBase;
 
-public class LargeContext extends ContextBase {
+public class AccTestContext extends ContextBase {
 
     @Override
     protected void registerServices() {
