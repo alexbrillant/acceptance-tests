@@ -8,9 +8,6 @@ import ca.ulaval.glo4002.med.core.patients.PatientRepository;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -29,9 +26,10 @@ public class ExecutePrescriptionMediumFixture extends HibernateBaseFixture imple
                                     LocalDate localDate) {
         withEntityManager((tx) -> {
             Patient patient = patientRepository.findByIdentifier(patientIdentifier);
-            Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            java.util.Date executionDate = java.sql.Date.valueOf(localDate);
             try {
-                patient.executePrescription(prescriptionIdentifier, date);
+                patient.executePrescription(prescriptionIdentifier, executionDate);
                 patientRepository.persist(patient);
             } catch (Exception e) {
                 currentPrescriptionIsExecuted = false;

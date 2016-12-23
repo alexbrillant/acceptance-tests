@@ -61,6 +61,6 @@ public class PrescriptionApplicationService {
     }
 
     private Date getCurrentDate() {
-        return Date.from(clock.instant());
+        return java.sql.Date.valueOf(LocalDate.now(clock));
     }
 }

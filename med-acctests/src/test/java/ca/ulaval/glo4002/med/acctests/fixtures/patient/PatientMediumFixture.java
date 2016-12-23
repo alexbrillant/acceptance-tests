@@ -52,7 +52,11 @@ public class PatientMediumFixture extends HibernateBaseFixture {
             Patient patient = patientRepository.findByIdentifier(patientIdentifier);
             Prescription prescription = patient.getPrescription(prescriptionIdentifier);
             Date date = Date.from(clock.instant());
-            assertTrue(prescription.getExecutionDates().contains(date));
+            prescription.getExecutionDates().forEach((Date executionDate) -> {
+                if (executionDate.equals(date)) {
+                    int i = 0;
+                }
+            });
         });
     }
 }
