@@ -30,7 +30,6 @@ public class PrescriptionResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPrescription(@PathParam("patientIdentifier") PatientIdentifier patientIdentifier,
             PrescriptionForm prescriptionForm) {
-
         PrescriptionIdentifier prescriptionIdentifier = service.addPrescription(patientIdentifier, prescriptionForm);
         return Response.created(URI.create(convertToUrl(patientIdentifier, prescriptionIdentifier))).build();
     }
@@ -40,7 +39,6 @@ public class PrescriptionResource {
     public Response executePrescription(@PathParam("patientIdentifier") int patientId, @PathParam("id") String id) {
         PatientIdentifier patientIdentifier = new PatientIdentifier(Integer.toString(patientId));
         PrescriptionIdentifier prescriptionIdentifier = new PrescriptionIdentifier(UUID.fromString(id));
-
         service.executePrescription(patientIdentifier, prescriptionIdentifier);
         return Response.ok().build();
     }

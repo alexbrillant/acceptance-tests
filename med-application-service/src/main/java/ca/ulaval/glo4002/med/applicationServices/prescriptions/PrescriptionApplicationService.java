@@ -15,19 +15,12 @@ import java.util.Date;
 
 public class PrescriptionApplicationService {
 
-    private Clock clock;
     private PatientRepository patientRepository;
     private PrescriptionFactory prescriptionFactory;
-
-    // for testing
-    public void setClock(Clock clock) {
-        this.clock = clock;
-    }
 
     public PrescriptionApplicationService() {
         patientRepository = ServiceLocator.getInstance().resolve(PatientRepository.class);
         prescriptionFactory = ServiceLocator.getInstance().resolve(PrescriptionFactory.class);
-        clock = ServiceLocator.getInstance().resolve(Clock.class);
     }
 
     public PrescriptionApplicationService(PatientRepository patientRepository, PrescriptionFactory prescriptionAssembler) {
@@ -55,12 +48,8 @@ public class PrescriptionApplicationService {
 
     public void executePrescription(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier) {
         Patient patient = patientRepository.findByIdentifier(patientIdentifier);
-        Date currentDate = getCurrentDate();
+        Date currentDate = new Date();
         patient.executePrescription(prescriptionIdentifier, currentDate);
         patientRepository.persist(patient);
-    }
-
-    private Date getCurrentDate() {
-        return java.sql.Date.valueOf(LocalDate.now(clock));
     }
 }

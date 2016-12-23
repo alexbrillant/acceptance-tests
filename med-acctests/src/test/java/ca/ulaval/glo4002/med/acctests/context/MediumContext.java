@@ -20,7 +20,6 @@ public class MediumContext extends ContextBase {
         ServiceLocator.reset();
         ServiceLocator.getInstance().register(PatientRepository.class, new HibernatePatientRepository());
         ServiceLocator.getInstance().register(PrescriptionFactory.class, new GespharPrescriptionFactory());
-        ServiceLocator.getInstance().register(Clock.class, Clock.systemDefaultZone());
     }
 
     @Override

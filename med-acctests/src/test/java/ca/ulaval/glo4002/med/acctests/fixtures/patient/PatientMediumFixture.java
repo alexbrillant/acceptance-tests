@@ -8,20 +8,18 @@ import ca.ulaval.glo4002.med.core.patients.PatientRepository;
 import ca.ulaval.glo4002.med.core.prescriptions.Prescription;
 import ca.ulaval.glo4002.med.core.prescriptions.PrescriptionIdentifier;
 
-import java.time.Clock;
-import java.util.Date;
-
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PatientMediumFixture extends HibernateBaseFixture {
 
     private PatientRepository patientRepository;
-    private Clock clock;
+    private int expectedExecutionCount;
 
     public PatientMediumFixture() {
         patientRepository = ServiceLocator.getInstance().resolve(PatientRepository.class);
-        clock = ServiceLocator.getInstance().resolve(Clock.class);
+        expectedExecutionCount = 0;
     }
 
     public void givenPatient(PatientIdentifier patientIdentifier) {
@@ -47,16 +45,12 @@ public class PatientMediumFixture extends HibernateBaseFixture {
     }
 
     public void thenPatientHasPrescriptionWithExecutionDate(PatientIdentifier patientIdentifier,
-                                            PrescriptionIdentifier prescriptionIdentifier) {
+                                                            PrescriptionIdentifier prescriptionIdentifier) {
         withEntityManager((tx) -> {
             Patient patient = patientRepository.findByIdentifier(patientIdentifier);
             Prescription prescription = patient.getPrescription(prescriptionIdentifier);
-            Date date = Date.from(clock.instant());
-            prescription.getExecutionDates().forEach((Date executionDate) -> {
-                if (executionDate.equals(date)) {
-                    int i = 0;
-                }
-            });
+            int actualExecutionCount = prescription.getExecutionDates().size();
+            assertEquals(expectedExecutionCount, actualExecutionCount);
         });
     }
 }
