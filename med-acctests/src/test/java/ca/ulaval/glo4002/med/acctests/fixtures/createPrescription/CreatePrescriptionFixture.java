@@ -15,9 +15,9 @@ public interface CreatePrescriptionFixture {
     void thenPrescriptionCreationIsConfirmed();
     void thenPrescriptionCreationHasAnError();
 
-    PrescriptionIdentifier givenAddedPrescriptionWithRenewals(PatientIdentifier patientIdentifier,
-                                                              int renewals,
-                                                              LocalDate expirationDate);
+    PrescriptionIdentifier givenPrescriptionForPatient(PatientIdentifier patientIdentifier,
+                                                       int renewals,
+                                                       LocalDate expirationDate);
 
-    PrescriptionIdentifier givenAddedPrescription(PatientIdentifier patientIdentifier);
+    PrescriptionIdentifier givenPrescriptionForPatient(PatientIdentifier patientIdentifier);
 }

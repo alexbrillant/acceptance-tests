@@ -22,12 +22,12 @@ public class ExecutePrescriptionRestFixture extends BaseRestFixture implements E
     @Override
     public void executePrescription(PatientIdentifier patientIdentifier, PrescriptionIdentifier prescriptionIdentifier,
                                     LocalDate localDate) {
-
         PrescriptionFormIso8601 prescriptionFormIso8601 = new PrescriptionFormIso8601(localDate);
         Date date = prescriptionFormIso8601.toPrescriptionForm().expirationDate;
-        Clock clock = Clock.fixed(date.toInstant(), ZoneId.systemDefault());
 
+        Clock clock = Clock.fixed(date.toInstant(), ZoneId.systemDefault());
         ServiceLocator.getInstance().registerAgain(Clock.class, clock);
+
         String url = createPatientPrescriptionRessourceUrl(patientIdentifier, prescriptionIdentifier);
         currentRequest = givenBaseRequest().when().put(url);
     }

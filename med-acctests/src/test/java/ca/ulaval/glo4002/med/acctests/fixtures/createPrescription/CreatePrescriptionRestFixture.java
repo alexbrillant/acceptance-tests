@@ -63,15 +63,15 @@ public class CreatePrescriptionRestFixture extends BaseRestFixture implements Cr
     }
 
     @Override
-    public PrescriptionIdentifier givenAddedPrescriptionWithRenewals(PatientIdentifier patientIdentifier,
-                                                                     int renewals, LocalDate expirationDate) {
+    public PrescriptionIdentifier givenPrescriptionForPatient(PatientIdentifier patientIdentifier,
+                                                              int renewals, LocalDate expirationDate) {
         currentPrescription = new PrescriptionFormIso8601(PHYSICIAN, expirationDate, renewals, DIN, NAME);
         whenAddingPrescription(patientIdentifier);
         return getCreatedPrescriptionIdentifier();
     }
 
     @Override
-    public PrescriptionIdentifier givenAddedPrescription(PatientIdentifier patientIdentifier) {
+    public PrescriptionIdentifier givenPrescriptionForPatient(PatientIdentifier patientIdentifier) {
         currentPrescription = new PrescriptionFormIso8601(PHYSICIAN, EXPIRATION_DATE, RENEWALS, DIN, NAME);
         whenAddingPrescription(patientIdentifier);
         return getCreatedPrescriptionIdentifier();
